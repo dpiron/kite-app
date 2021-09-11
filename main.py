@@ -214,44 +214,56 @@ def get_forecast():
     return sorted_spot_list
 
 
-new_spot_list = get_forecast()
+def get_names():
+    spot_names = []
+    spot_db = Spot.query.all()
+    for spot in spot_db:
+        spot_names.append((spot.id, spot.name))
+    return spot_names
 
 
 @app.route('/')
 def home():
     new_spot_list = get_forecast()
-    return render_template("index.html", spot_list=new_spot_list)
+    spot_names = get_names()
+    return render_template("index.html", spot_list=new_spot_list, spot_names=spot_names)
 
 
 @app.route('/spot/<int:spot_id>')
 def spot(spot_id):
     spot = Spot.query.get(spot_id)
-    return render_template("spot.html", spot_list=new_spot_list, spot=spot)
+    spot_names = get_names()
+    return render_template("spot.html", spot_names=spot_names, spot=spot)
 
 
 @app.route('/add-spot')
 def add_spot():
-    return render_template("add_spot.html", spot_list=new_spot_list)
+    spot_names = get_names()
+    return render_template("add_spot.html", spot_names=spot_names)
 
 
 @app.route('/about')
 def about():
-    return render_template("about.html", spot_list=new_spot_list)
+    spot_names = get_names()
+    return render_template("about.html", spot_names=spot_names)
 
 
 @app.route('/contact')
 def contact():
-    return render_template("contact.html", spot_list=new_spot_list)
+    spot_names = get_names()
+    return render_template("contact.html", spot_names=spot_names)
 
 
 @app.route('/admin')
 def admin():
+    spot_names = get_names()
     spots = Spot.query.all()
-    return render_template("admin.html", spots=spots)
+    return render_template("admin.html", spots=spots, spot_names=spot_names)
 
 
 @app.route("/new-spot", methods=['GET', 'POST'])
 def add_new_spot():
+    spot_names = get_names()
     form = SpotForm()
     if form.validate_on_submit():
         new_spot = Spot(
@@ -263,11 +275,12 @@ def add_new_spot():
         db.session.add(new_spot)
         db.session.commit()
         return redirect(url_for("admin"))
-    return render_template("add-edit.html", form=form)
+    return render_template("add-edit.html", form=form, spot_names=spot_names)
 
 
 @app.route("/edit-spot/<int:spot_id>", methods=['GET', 'POST'])
 def edit_spot(spot_id):
+    spot_names = get_names()
     spot = Spot.query.get(spot_id)
     edit_form = SpotForm(
         name=spot.name,
@@ -282,7 +295,7 @@ def edit_spot(spot_id):
         spot.offside = edit_form.offside.data
         db.session.commit()
         return redirect(url_for("admin"))
-    return render_template("add-edit.html", form=edit_form)
+    return render_template("add-edit.html", form=edit_form, spot_names=spot_names)
 
 
 @app.route("/delete/<int:spot_id>")
@@ -298,17 +311,18 @@ def test():
     return render_template("not_used/buttons.html")
 
 
-
 @app.errorhandler(404)
 def page_not_found(e):
+    spot_names = get_names()
     # note that we set the 404 status explicitly
-    return render_template('404.html', spot_list=new_spot_list), 404
+    return render_template('404.html', spot_names=spot_names), 404
 
 
 @app.errorhandler(500)
 def page_not_found(e):
+    spot_names = get_names()
     # note that we set the 404 status explicitly
-    return render_template('404.html', spot_list=new_spot_list), 500
+    return render_template('404.html', spot_names=spot_names), 500
 
 
 if __name__ == "__main__":
