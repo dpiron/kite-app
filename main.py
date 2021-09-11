@@ -56,7 +56,8 @@ ARO_endpoint = "https://public.opendatasoft.com/api/records/1.0/search"
 
 
 class Forecast:
-    def __init__(self, name, lat, long, off):
+    def __init__(self, id, name, lat, long, off):
+        self.id = id
         self.name = name
         self.off = off
         self.parameters_OWM = {
@@ -208,7 +209,7 @@ def get_forecast():
     spot_list = []
     spot_db = Spot.query.all()
     for spot in spot_db:
-        spot_list.append(Forecast(spot.name, spot.lat, spot.long, spot.offside))
+        spot_list.append(Forecast(spot.id, spot.name, spot.lat, spot.long, spot.offside))
     sorted_spot_list = sorted(spot_list, key=operator.attrgetter("spot_score"))[::-1]
     return sorted_spot_list
 

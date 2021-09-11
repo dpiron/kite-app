@@ -67,7 +67,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         {% for spot in spot_list %}
-                        <a class="collapse-item" href="{{ url_for('spot') }}">{{ spot.name }}</a>
+                        <a class="collapse-item" href="{{ url_for('spot', spot_id=spot.id) }}">{{ spot.name }}</a>
                         {% endfor %}
                     </div>
                 </div>
