@@ -48,7 +48,7 @@ db.create_all()
 
 
 # Open weather
-API_KEY = "be22df4ed0ed988d9d41db711395ff7a"
+API_KEY = os.environ.get("API_KEY")
 OWM_endpoint = "https://api.openweathermap.org/data/2.5/onecall"
 
 # Arome
