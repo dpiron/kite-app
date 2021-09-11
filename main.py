@@ -222,9 +222,10 @@ def home():
     return render_template("index.html", spot_list=new_spot_list)
 
 
-@app.route('/spot')
-def spot():
-    return render_template("spot.html", spot_list=new_spot_list)
+@app.route('/spot/<int:spot_id>')
+def spot(spot_id):
+    spot = Spot.query.get(spot_id)
+    return render_template("spot.html", spot_list=new_spot_list, spot=spot)
 
 
 @app.route('/add-spot')
