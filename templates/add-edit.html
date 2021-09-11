@@ -1,0 +1,19 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% include "header.html" %}
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="mt-4 h3 mb-0 text-gray-800">Admin</h1>
+                    </div>
+
+                    {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+{% include "footer.html" %}

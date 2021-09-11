@@ -1,0 +1,87 @@
+{% include "header.html" %}
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="mt-4 h3 mb-0 text-gray-800">Spot finder</h1>
+                    </div>
+
+                    {% for spot in spot_list %}
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow mb-4">
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="col mr-2">
+                                        <div class="text-m font-weight-bold text-primary text-uppercase mb-1">
+                                            {{ spot.name }} / Score : {{ spot.spot_score }}
+                                        </div>
+                                        <div class="row no-gutters">
+
+                                            <div class="col-2 h6 mb-0 text-gray-800 small" style="text-align: left">Day</div>
+                                            {% for day in spot.days_OWM %}
+                                            <div class="col h6 mb-0 text-gray-800 small" style="text-align: center">
+                                                {{ day }}
+                                            </div>
+                                            {% endfor %}
+                                            <div class="w-100"></div>
+
+                                            <div class="col-2 h6 mb-0 text-gray-800 small" style="text-align: left">Hour</div>
+                                            {% for hour in spot.hours_OWM %}
+                                            <div class="col h6 mb-0 text-gray-800 small" style="text-align: center">
+                                                {{ hour }}
+                                            </div>
+                                            {% endfor %}
+                                            <div class="w-100"></div>
+
+                                            <div class="col-2 h6 mb-0 text-gray-800 small" style="text-align: left">Wind Dir</div>
+                                            {% for wind_deg in spot.wind_degs_off %}
+                                            <div class="col h6 mb-0 text-gray-800 small" style="text-align: center">
+                                                {% if wind_deg[1]: %}
+                                                <i class="fas fa-long-arrow-alt-down" style="transform: rotate({{ wind_deg[0] }}deg)"></i>
+                                                {% else: %}
+                                                <i class="fas fa-long-arrow-alt-down" style="transform: rotate({{ wind_deg[0] }}deg); color: red"></i>
+                                                {% endif %}
+                                            </div>
+                                            {% endfor %}
+                                            <div class="w-100"></div>
+
+                                            <div class="col-2 h6 mb-0 text-gray-800 small" style="text-align: left">Wind Speed</div>
+                                            {% for wind_speed in spot.wind_speeds_cl %}
+                                            <div class="col h6 mb-0 text-gray-800 small" style="background-color: {{ wind_speed[1] }}; text-align: center">
+                                                {{ wind_speed[0] }}
+                                            </div>
+                                            {% endfor %}
+                                            <div class="w-100"></div>
+
+                                            <div class="col-2 h6 mb-0 text-gray-800 small" style="text-align: left">Wind Gusts</div>
+                                            {% for wind_gust in spot.wind_gusts_cl %}
+                                            <div class="col h6 mb-0 text-gray-800 small" style="background-color: {{ wind_gust[1] }}; text-align: center">
+                                                {{ wind_gust[0] }}
+                                            </div>
+                                            {% endfor %}
+                                            <div class="w-100"></div>
+
+                                            <div class="col-2 h6 mb-0 text-gray-800 small" style="text-align: left">Wind Speed (Arome)</div>
+                                            {% for wind_speed in spot.wind_speeds_ARO_2_cl %}
+                                            <div class="col h6 mb-0 text-gray-800 small" style="background-color: {{ wind_speed[1] }}; text-align: center">
+                                                {{ wind_speed[0] }}
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+{% include "footer.html" %}
